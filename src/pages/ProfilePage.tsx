@@ -68,9 +68,9 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Column - Avatar & Basic Info */}
         <div className="space-y-6">
-          <div className="bg-white rounded-2xl border border-dark-100 p-6 flex flex-col items-center text-center">
+          <div className="bg-white dark:bg-dark-100 rounded-2xl border border-dark-100 dark:border-dark-100/50 p-6 flex flex-col items-center text-center">
             <div className="relative mb-4 group cursor-pointer">
-              <div className="w-28 h-28 rounded-full bg-primary-100 flex items-center justify-center text-4xl font-bold text-primary-600 border-4 border-white shadow-sm overflow-hidden">
+              <div className="w-28 h-28 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-4xl font-bold text-primary-600 dark:text-primary-400 border-4 border-white dark:border-dark-100 shadow-sm overflow-hidden">
                 {user?.avatar ? (
                   <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
@@ -90,7 +90,7 @@ export default function ProfilePage() {
 
         {/* Right Column - Form */}
         <div className="lg:col-span-2">
-          <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-dark-100 p-8 space-y-6">
+          <form onSubmit={handleSubmit} className="bg-white dark:bg-dark-100 rounded-2xl border border-dark-100 dark:border-dark-100/50 p-8 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-dark-700">Full Name</label>
@@ -101,7 +101,7 @@ export default function ProfilePage() {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 bg-dark-50 rounded-xl border border-transparent focus:bg-white focus:border-primary-300 focus:ring-4 focus:ring-primary-100 transition-all outline-none text-sm"
+                    className="w-full pl-10 pr-4 py-2.5 bg-dark-50 dark:bg-dark-50 rounded-xl border border-transparent focus:bg-white dark:focus:bg-dark-200 focus:border-primary-300 focus:ring-4 focus:ring-primary-100 dark:focus:ring-primary-900/30 transition-all outline-none text-sm"
                   />
                 </div>
               </div>
@@ -115,7 +115,7 @@ export default function ProfilePage() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 bg-dark-50 rounded-xl border border-transparent focus:bg-white focus:border-primary-300 focus:ring-4 focus:ring-primary-100 transition-all outline-none text-sm"
+                    className="w-full pl-10 pr-4 py-2.5 bg-dark-50 dark:bg-dark-50 rounded-xl border border-transparent focus:bg-white dark:focus:bg-dark-200 focus:border-primary-300 focus:ring-4 focus:ring-primary-100 dark:focus:ring-primary-900/30 transition-all outline-none text-sm"
                   />
                 </div>
               </div>
@@ -129,7 +129,7 @@ export default function ProfilePage() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 bg-dark-50 rounded-xl border border-transparent focus:bg-white focus:border-primary-300 focus:ring-4 focus:ring-primary-100 transition-all outline-none text-sm"
+                    className="w-full pl-10 pr-4 py-2.5 bg-dark-50 dark:bg-dark-50 rounded-xl border border-transparent focus:bg-white dark:focus:bg-dark-200 focus:border-primary-300 focus:ring-4 focus:ring-primary-100 dark:focus:ring-primary-900/30 transition-all outline-none text-sm"
                   />
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function ProfilePage() {
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 bg-dark-50 rounded-xl border border-transparent focus:bg-white focus:border-primary-300 focus:ring-4 focus:ring-primary-100 transition-all outline-none text-sm"
+                    className="w-full pl-10 pr-4 py-2.5 bg-dark-50 dark:bg-dark-50 rounded-xl border border-transparent focus:bg-white dark:focus:bg-dark-200 focus:border-primary-300 focus:ring-4 focus:ring-primary-100 dark:focus:ring-primary-900/30 transition-all outline-none text-sm"
                   />
                 </div>
               </div>
@@ -156,14 +156,14 @@ export default function ProfilePage() {
                 value={formData.bio}
                 onChange={handleChange}
                 rows={4}
-                className="w-full px-4 py-3 bg-dark-50 rounded-xl border border-transparent focus:bg-white focus:border-primary-300 focus:ring-4 focus:ring-primary-100 transition-all outline-none text-sm resize-none"
+                className="w-full px-4 py-3 bg-dark-50 dark:bg-dark-50 rounded-xl border border-transparent focus:bg-white dark:focus:bg-dark-200 focus:border-primary-300 focus:ring-4 focus:ring-primary-100 dark:focus:ring-primary-900/30 transition-all outline-none text-sm resize-none"
               />
             </div>
 
-            <div className="pt-4 border-t border-dark-100 flex justify-end gap-3">
+            <div className="pt-4 border-t border-dark-100 dark:border-dark-100/50 flex justify-end gap-3">
               <button
                 type="button"
-                className="px-5 py-2.5 rounded-xl font-medium text-dark-600 hover:bg-dark-50 transition-colors"
+                className="px-5 py-2.5 rounded-xl font-medium text-dark-600 hover:bg-dark-50 dark:hover:bg-dark-50/50 transition-colors"
               >
                 Cancel
               </button>
@@ -178,7 +178,7 @@ export default function ProfilePage() {
             </div>
           </form>
 
-          <div className="mt-8 bg-white rounded-2xl border border-dark-100 p-8">
+          <div className="mt-8 bg-white dark:bg-dark-100 rounded-2xl border border-dark-100 dark:border-dark-100/50 p-8">
              <h3 className="text-lg font-bold text-dark-900 mb-6 flex items-center gap-2">
                <Lock size={20} className="text-primary-500" />
                Change Password
@@ -192,7 +192,7 @@ export default function ProfilePage() {
                     value={passwordData.currentPassword}
                     onChange={handlePasswordChange}
                     placeholder="••••••••" 
-                    className="w-full px-4 py-2.5 bg-dark-50 rounded-xl border border-transparent focus:bg-white outline-none text-sm" 
+                    className="w-full px-4 py-2.5 bg-dark-50 dark:bg-dark-50 rounded-xl border border-transparent focus:bg-white dark:focus:bg-dark-200 outline-none text-sm" 
                   />
                 </div>
                 <div className="space-y-2">
@@ -203,13 +203,13 @@ export default function ProfilePage() {
                     value={passwordData.newPassword}
                     onChange={handlePasswordChange}
                     placeholder="••••••••" 
-                    className="w-full px-4 py-2.5 bg-dark-50 rounded-xl border border-transparent focus:bg-white outline-none text-sm" 
+                    className="w-full px-4 py-2.5 bg-dark-50 dark:bg-dark-50 rounded-xl border border-transparent focus:bg-white dark:focus:bg-dark-200 outline-none text-sm" 
                   />
                 </div>
                 <div className="md:col-span-2 flex justify-end">
                    <button
                     type="submit"
-                    className="px-5 py-2.5 rounded-xl font-medium bg-dark-800 text-white hover:bg-dark-900 transition-colors shadow-lg"
+                    className="px-5 py-2.5 rounded-xl font-medium bg-dark-800 dark:bg-dark-700 text-white hover:bg-dark-900 dark:hover:bg-dark-600 transition-colors shadow-lg"
                   >
                     Update Password
                   </button>

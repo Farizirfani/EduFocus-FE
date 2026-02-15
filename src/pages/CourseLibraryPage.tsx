@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { getCourses, getProgress } from '@/services/api';
 import type { Course, Progress } from '@/types';
-import { useNavigate } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
-import ProgressBar from '@/components/ui/ProgressBar';
+import CourseCard from '@/components/ui/CourseCard';
+import { useSearchParams } from 'react-router-dom';
 
 const categories = ['All Subjects', 'Science', 'Mathematics', 'Languages', 'Social Studies'];
 
 export default function CourseLibraryPage() {
-  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get('search') || '';
+  
   const [activeCategory, setActiveCategory] = useState('All Subjects');
   const [courses, setCourses] = useState<Course[]>([]);
   const [progressMap, setProgressMap] = useState<Record<string, Progress>>({});
@@ -40,111 +41,112 @@ export default function CourseLibraryPage() {
     fetchData();
   }, [activeCategory]);
 
+  const filteredCourses = useMemo(() => {
+    if (!searchQuery) return courses;
+    return courses.filter(course => 
+      course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (course.subtitle && course.subtitle.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (course.category && course.category.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }, [courses, searchQuery]);
+
   const getStatus = (progress: number): 'In Progress' | 'Almost Done' | 'Completed' => {
     if (progress >= 100) return 'Completed';
     if (progress >= 75) return 'Almost Done';
     return 'In Progress';
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Completed': return 'bg-success/10 text-success';
-      case 'Almost Done': return 'bg-warning/10 text-warning';
-      default: return 'bg-primary-50 text-primary-700';
-    }
-  };
-
-  const getProgressColor = (status: string): 'primary' | 'warning' | 'success' => {
-    switch (status) {
-      case 'Completed': return 'success';
-      case 'Almost Done': return 'warning';
-      default: return 'primary';
-    }
-  };
-
   return (
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-dark-900 mb-1">Course Library</h1>
+        <h1 className="text-2xl font-bold text-dark-900 mb-1">
+          {searchQuery ? `Search Results for "${searchQuery}"` : 'Course Library'}
+        </h1>
         <p className="text-dark-500 text-sm">
-          Explore your courses and track your progress
+          {searchQuery 
+            ? `Found ${filteredCourses.length} result${filteredCourses.length !== 1 ? 's' : ''}`
+            : 'Explore your courses and track your progress'
+          }
         </p>
       </div>
 
-      {/* Category Filters */}
-      <div className="flex items-center gap-2 flex-wrap">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`px-5 py-2 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
-              activeCategory === cat
-                ? 'bg-primary-600 text-white shadow-md shadow-primary-600/25'
-                : 'bg-white text-dark-600 border border-dark-200 hover:border-dark-300 hover:bg-dark-50'
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
+      {/* Category Filters - Hide if searching? Or allow filtering search results? Let's allow filtering */}
+      {!searchQuery && (
+        <div className="flex items-center gap-2 flex-wrap">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-5 py-2 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
+                activeCategory === cat
+                  ? 'bg-primary-600 text-white shadow-md shadow-primary-600/25'
+                  : 'bg-white dark:bg-dark-100 text-dark-600 dark:text-dark-400 border border-dark-200 dark:border-dark-100 hover:border-dark-300 dark:hover:border-dark-200 hover:bg-dark-50 dark:hover:bg-dark-200'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Course Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {loading ? (
           // Loading skeletons
           [...Array(6)].map((_, i) => (
-            <div key={i} className="bg-white rounded-2xl border border-dark-100 p-5 animate-pulse">
+            <div key={i} className="bg-white dark:bg-dark-100 rounded-2xl border border-dark-100 p-5 animate-pulse h-[200px]">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-dark-100" />
+                <div className="w-14 h-14 rounded-2xl bg-dark-100 dark:bg-dark-200" />
                 <div>
-                  <div className="h-4 bg-dark-100 rounded w-24 mb-2" />
-                  <div className="h-3 bg-dark-50 rounded w-32" />
+                  <div className="h-4 bg-dark-100 dark:bg-dark-200 rounded w-24 mb-2" />
+                  <div className="h-3 bg-dark-50 dark:bg-dark-300 rounded w-32" />
                 </div>
               </div>
-              <div className="h-2 bg-dark-100 rounded-full mb-4" />
-              <div className="h-6 bg-dark-50 rounded-lg w-20" />
+              <div className="h-2 bg-dark-100 dark:bg-dark-200 rounded-full mb-6" />
+              <div className="flex justify-between items-center">
+                 <div className="h-6 bg-dark-50 dark:bg-dark-200 rounded-lg w-20" />
+                 <div className="h-8 w-16 bg-dark-50 dark:bg-dark-200 rounded-full" />
+              </div>
             </div>
           ))
-        ) : courses.length > 0 ? (
-          courses.map((course) => {
+        ) : filteredCourses.length > 0 ? (
+          filteredCourses.map((course) => {
             const progress = progressMap[course._id]?.percentage ?? 0;
             const status = getStatus(progress);
             return (
-              <div
+              <CourseCard
                 key={course._id}
-                onClick={() => navigate(`/courses/${course._id}`)}
-                className="bg-white rounded-2xl border border-dark-100 p-5 cursor-pointer 
-                  hover:shadow-lg hover:border-dark-200 hover:-translate-y-0.5 transition-all duration-300 group shadow-xs"
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-dark-50 flex items-center justify-center text-2xl">
-                      {course.icon || '📚'}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-dark-800 text-[15px]">{course.title}</h3>
-                      <p className="text-xs text-dark-400 mt-0.5">{course.subtitle || course.category}</p>
-                    </div>
-                  </div>
-                  <ChevronRight size={16} className="text-dark-300 group-hover:text-dark-500 transition-colors mt-1" />
-                </div>
-                <div className="mb-4">
-                  <ProgressBar progress={progress} color={getProgressColor(status)} size="sm" showLabel />
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className={`text-xs font-semibold px-3 py-1 rounded-lg ${getStatusColor(status)}`}>
-                    {status}
-                  </span>
-                  <span className="text-xs text-dark-400">{course.category}</span>
-                </div>
-              </div>
+                id={course._id}
+                title={course.title}
+                subtitle={course.subtitle || course.category}
+                progress={progress}
+                status={status}
+                icon={course.icon || ''}
+                classmatesCount={course.isBookmarked ? 12 : 5} // Mock data for now
+                isBookmarked={course.isBookmarked}
+              />
             );
           })
         ) : (
-          <div className="col-span-full text-center py-12 text-dark-400">
-            <p className="text-lg font-medium mb-1">No courses found</p>
-            <p className="text-sm">Try selecting a different category</p>
+          <div className="col-span-full py-16 text-center">
+            <div className="w-20 h-20 bg-dark-50 dark:bg-dark-100 rounded-full flex items-center justify-center mx-auto mb-4 text-dark-300 dark:text-dark-500">
+               <span className="text-4xl">🔍</span>
+            </div>
+            <h3 className="text-lg font-bold text-dark-900 mb-1">
+              {searchQuery ? `No results found for "${searchQuery}"` : 'No courses found'}
+            </h3>
+            <p className="text-dark-500">
+              {searchQuery ? 'Try checking for typos or using different keywords.' : 'Try selecting a different category or check back later.'}
+            </p>
+            {searchQuery && (
+               <button 
+                 onClick={() => window.history.back()}
+                 className="mt-4 text-primary-600 dark:text-primary-400 font-medium hover:underline"
+               >
+                 Clear search
+               </button>
+            )}
           </div>
         )}
       </div>

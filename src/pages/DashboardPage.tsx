@@ -64,7 +64,7 @@ export default function DashboardPage() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* Exam Readiness */}
-        <div className="bg-white rounded-2xl p-6 border border-dark-100 shadow-xs">
+        <div className="bg-white dark:bg-dark-100 rounded-2xl p-6 border border-dark-100 shadow-xs">
           <div className="flex items-center justify-between mb-5">
             <h3 className="text-sm font-semibold text-dark-700">Exam Readiness</h3>
             <TrendingUp size={16} className="text-success" />
@@ -75,7 +75,8 @@ export default function DashboardPage() {
                 <path
                   d="M18 2.0845a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
-                  stroke="#e8edf3"
+                  stroke="currentColor"
+                  className="text-dark-100 dark:text-dark-200"
                   strokeWidth="3"
                 />
                 <path
@@ -133,7 +134,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Study Time */}
-        <div className="bg-white rounded-2xl p-6 border border-dark-100 shadow-xs">
+        <div className="bg-white dark:bg-dark-100 rounded-2xl p-6 border border-dark-100 shadow-xs">
           <div className="flex items-center justify-between mb-5">
             <h3 className="text-sm font-semibold text-dark-700">Study Summary</h3>
             <Clock size={16} className="text-primary-500" />
@@ -151,7 +152,7 @@ export default function DashboardPage() {
       {/* Bottom Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* Continue Learning */}
-        <div className="lg:col-span-3 bg-white rounded-2xl p-6 border border-dark-100 shadow-xs">
+        <div className="lg:col-span-3 bg-white dark:bg-dark-100 rounded-2xl p-6 border border-dark-100 shadow-xs">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-base font-semibold text-dark-800">Continue Learning</h3>
             <button 
@@ -165,7 +166,7 @@ export default function DashboardPage() {
             {loading ? (
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="animate-pulse flex items-center gap-4 p-4 rounded-xl bg-dark-50/60">
+                  <div key={i} className="animate-pulse flex items-center gap-4 p-4 rounded-xl bg-dark-50/60 dark:bg-dark-200/50">
                     <div className="w-10 h-10 bg-dark-200 rounded-lg" />
                     <div className="flex-1">
                       <div className="h-4 bg-dark-200 rounded w-32 mb-2" />
@@ -179,9 +180,9 @@ export default function DashboardPage() {
                 <div
                   key={idx}
                   onClick={() => navigate(`/courses/${item.course._id}/content`)}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-dark-50/60 hover:bg-dark-50 transition-colors cursor-pointer group"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-dark-50/60 dark:bg-dark-50/50 hover:bg-dark-50 dark:hover:bg-dark-50 transition-colors cursor-pointer group"
                 >
-                  <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 text-lg">
+                  <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/50 rounded-lg flex items-center justify-center flex-shrink-0 text-lg text-primary-600 dark:text-primary-400">
                     {item.course.icon || '📚'}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -203,10 +204,10 @@ export default function DashboardPage() {
               ].map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-dark-50/60 hover:bg-dark-50 transition-colors cursor-pointer group"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-dark-50/60 dark:bg-dark-50/50 hover:bg-dark-50 dark:hover:bg-dark-50 transition-colors cursor-pointer group"
                 >
-                  <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <BookOpen size={18} className="text-primary-600" />
+                  <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/50 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <BookOpen size={18} className="text-primary-600 dark:text-primary-400" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-dark-800 mb-0.5">{item.title}</p>
@@ -223,7 +224,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Study Hours Chart */}
-        <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-dark-100 shadow-xs">
+        <div className="lg:col-span-2 bg-white dark:bg-dark-100 rounded-2xl p-6 border border-dark-100 shadow-xs">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-base font-semibold text-dark-800">Study Hours</h3>
             <span className="text-xs text-dark-400 font-medium">This Week</span>
@@ -243,7 +244,7 @@ export default function DashboardPage() {
                   {studyHoursChartData.map((_entry, index) => (
                     <Cell
                       key={`cell-${index}`}
-                      fill={index === 2 ? '#3b82f6' : '#dbeafe'}
+                      fill={index === 2 ? '#3b82f6' : '#dbeafe'} // Consider updating chart colors for dark mode context but might be acceptable
                     />
                   ))}
                 </Bar>

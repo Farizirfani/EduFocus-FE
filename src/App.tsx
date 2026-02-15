@@ -13,6 +13,8 @@ import DashboardPage from '@/pages/DashboardPage';
 import CourseLibraryPage from '@/pages/CourseLibraryPage';
 import CourseContentPage from '@/pages/CourseContentPage';
 import ProfilePage from '@/pages/ProfilePage';
+import FocusModePage from '@/pages/FocusModePage';
+import SupportPage from '@/pages/SupportPage';
 
 export default function App() {
   const { checkAuth } = useAuthStore();
@@ -56,6 +58,8 @@ export default function App() {
           <Route path="/courses/:courseId" element={<CourseContentPage />} />
           <Route path="/courses/:courseId/:chapterId" element={<CourseContentPage />} />
           <Route path="/settings" element={<ProfilePage />} />
+          <Route path="/focus-mode" element={<FocusModePage />} />
+          <Route path="/support" element={<SupportPage />} />
         </Route>
 
         {/* Default redirect */}

@@ -5,9 +5,10 @@ interface VideoPlayerProps {
   src: string;
   poster?: string;
   autoPlay?: boolean;
+  onEnded?: () => void;
 }
 
-export default function VideoPlayer({ src, poster, autoPlay = false }: VideoPlayerProps) {
+export default function VideoPlayer({ src, poster, autoPlay = false, onEnded }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -104,7 +105,10 @@ export default function VideoPlayer({ src, poster, autoPlay = false }: VideoPlay
         className="w-full h-full object-cover cursor-pointer"
         onClick={togglePlay}
         onTimeUpdate={handleTimeUpdate}
-        onEnded={() => setIsPlaying(false)}
+        onEnded={() => {
+            setIsPlaying(false);
+            onEnded?.();
+        }}
       />
 
       {/* Overlay Play Button (when paused) */}

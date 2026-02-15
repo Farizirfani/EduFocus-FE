@@ -36,12 +36,12 @@ export default function Sidebar() {
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 ${
       isActive
-        ? 'bg-primary-50 text-primary-700 shadow-sm'
-        : 'text-dark-500 hover:bg-dark-50 hover:text-dark-700'
+        ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 shadow-sm'
+        : 'text-dark-500 hover:bg-dark-50 dark:hover:bg-dark-100/50 hover:text-dark-900'
     }`;
 
   return (
-    <aside className="hidden lg:flex w-[260px] h-screen bg-white border-r border-dark-100 flex-col fixed left-0 top-0 z-30 transition-all duration-300">
+    <aside className="hidden lg:flex w-[260px] h-screen bg-white dark:bg-dark-100 border-r dark:border-dark-100/50 flex-col fixed left-0 top-0 z-30 transition-all duration-300">
       {/* Logo */}
       <div className="px-6 pt-7 pb-8">
         <div className="flex items-center gap-2.5">
@@ -82,11 +82,11 @@ export default function Sidebar() {
       </nav>
 
       {/* Logout */}
-      <div className="px-4 py-4 border-t border-dark-100">
+      <div className="px-4 py-4 border-t border-dark-100 dark:border-dark-100">
         <button
           onClick={handleLogout}
           className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-medium text-dark-500 
-            hover:bg-red-50 hover:text-error transition-all duration-200 w-full cursor-pointer"
+            hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-error transition-all duration-200 w-full cursor-pointer"
         >
           <LogOut size={18} strokeWidth={1.8} />
           Log Out

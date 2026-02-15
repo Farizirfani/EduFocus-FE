@@ -47,9 +47,10 @@ const mockQuestions: Question[] = [
 
 interface QuizAppProps {
   chapterId?: string;
+  onComplete?: (score: number, total: number) => void;
 }
 
-export default function QuizApp({ chapterId }: QuizAppProps) {
+export default function QuizApp({ chapterId, onComplete }: QuizAppProps) {
   console.log("Rendering Quiz for chapter:", chapterId); // Use prop to fetch if real
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -77,6 +78,9 @@ export default function QuizApp({ chapterId }: QuizAppProps) {
       setIsAnswered(false);
     } else {
       setShowResults(true);
+      if (onComplete) {
+        onComplete(score + (selectedAnswer === currentQuestion.correctAnswer ? 1 : 0), mockQuestions.length);
+      }
     }
   };
 
@@ -93,13 +97,13 @@ export default function QuizApp({ chapterId }: QuizAppProps) {
     
     return (
       <div className="flex flex-col items-center justify-center p-8 text-center animate-in fade-in zoom-in duration-300">
-        <div className="w-24 h-24 bg-primary-50 rounded-full flex items-center justify-center mb-6">
-          <Trophy size={48} className="text-primary-600" />
+        <div className="w-24 h-24 bg-primary-50 dark:bg-primary-900/30 rounded-full flex items-center justify-center mb-6">
+          <Trophy size={48} className="text-primary-600 dark:text-primary-400" />
         </div>
         <h2 className="text-2xl font-bold text-dark-900 mb-2">Quiz Completed!</h2>
         <p className="text-dark-500 mb-8">You scored {percentage}% ({score}/{mockQuestions.length})</p>
         
-        <div className="w-full max-w-sm bg-dark-50 rounded-full h-4 mb-8 overflow-hidden">
+        <div className="w-full max-w-sm bg-dark-50 dark:bg-dark-100 rounded-full h-4 mb-8 overflow-hidden">
           <div 
             className={`h-full rounded-full transition-all duration-1000 ${
               percentage >= 70 ? 'bg-success' : percentage >= 40 ? 'bg-warning' : 'bg-error'
@@ -110,7 +114,7 @@ export default function QuizApp({ chapterId }: QuizAppProps) {
 
         <button 
           onClick={handleRetry}
-          className="flex items-center gap-2 px-6 py-3 bg-dark-800 text-white rounded-xl hover:bg-dark-900 transition-colors shadow-lg"
+          className="flex items-center gap-2 px-6 py-3 bg-dark-800 dark:bg-dark-700 text-white rounded-xl hover:bg-dark-900 dark:hover:bg-dark-600 transition-colors shadow-lg"
         >
           <RefreshCw size={18} />
           Try Again
@@ -127,7 +131,7 @@ export default function QuizApp({ chapterId }: QuizAppProps) {
           <span>Question {currentQuestionIndex + 1} of {mockQuestions.length}</span>
           <span>Score: {score}</span>
         </div>
-        <div className="h-1.5 bg-dark-50 rounded-full overflow-hidden">
+        <div className="h-1.5 bg-dark-50 dark:bg-dark-100 rounded-full overflow-hidden">
           <div 
             className="h-full bg-primary-500 transition-all duration-300"
             style={{ width: `${((currentQuestionIndex + 1) / mockQuestions.length) * 100}%` }}
@@ -143,21 +147,21 @@ export default function QuizApp({ chapterId }: QuizAppProps) {
       {/* Options */}
       <div className="space-y-3 mb-8">
         {currentQuestion.options.map((option, index) => {
-          let optionClass = "border-dark-100 hover:border-dark-300 hover:bg-dark-50";
+          let optionClass = "border-dark-100 dark:border-dark-100 hover:border-dark-300 dark:hover:border-dark-200 hover:bg-dark-50 dark:hover:bg-dark-100 bg-white dark:bg-dark-100";
           let icon = null;
 
           if (isAnswered) {
              if (index === currentQuestion.correctAnswer) {
-               optionClass = "border-success bg-success/10 text-success-700";
+               optionClass = "border-success bg-success/10 text-success-700 dark:text-success-400";
                icon = <CheckCircle size={20} className="text-success" />;
              } else if (index === selectedAnswer) {
-               optionClass = "border-error bg-error/10 text-error-700";
+               optionClass = "border-error bg-error/10 text-error-700 dark:text-error-400";
                icon = <XCircle size={20} className="text-error" />;
              } else {
-               optionClass = "border-dark-100 opacity-50";
+               optionClass = "border-dark-100 dark:border-dark-100/30 opacity-50";
              }
           } else if (selectedAnswer === index) {
-            optionClass = "border-primary-500 bg-primary-50 text-primary-700";
+            optionClass = "border-primary-500 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400";
           }
 
           return (
@@ -169,13 +173,13 @@ export default function QuizApp({ chapterId }: QuizAppProps) {
             >
               <div className="flex items-center gap-4">
                 <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold border ${
-                  isAnswered && index === currentQuestion.correctAnswer ? 'border-success text-success bg-white' :
-                  isAnswered && index === selectedAnswer ? 'border-error text-error bg-white' :
-                  'border-dark-200 text-dark-500 bg-white group-hover:border-dark-300'
+                  isAnswered && index === currentQuestion.correctAnswer ? 'border-success text-success bg-white dark:bg-dark-100' :
+                  isAnswered && index === selectedAnswer ? 'border-error text-error bg-white dark:bg-dark-100' :
+                  'border-dark-200 dark:border-dark-100/50 text-dark-500 bg-white dark:bg-dark-200 group-hover:border-dark-300 dark:group-hover:border-dark-200'
                 }`}>
                   {String.fromCharCode(65 + index)}
                 </span>
-                <span className="font-medium">{option}</span>
+                <span className="font-medium text-dark-800">{option}</span>
               </div>
               {icon}
             </button>

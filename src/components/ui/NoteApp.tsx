@@ -57,8 +57,8 @@ export default function NoteApp({ chapterId }: NoteAppProps) {
     <div className="max-w-2xl mx-auto">
       {/* Note Input */}
       <div 
-        className={`bg-white rounded-2xl border transition-all duration-300 mb-8 ${
-          isFocused ? 'border-primary-300 ring-4 ring-primary-50 shadow-lg' : 'border-dark-100 shadow-sm'
+        className={`bg-white dark:bg-dark-100 rounded-2xl border transition-all duration-300 mb-8 ${
+          isFocused ? 'border-primary-300 ring-4 ring-primary-50 dark:ring-primary-900/30 shadow-lg' : 'border-dark-100 dark:border-dark-100/50 shadow-sm'
         }`}
       >
         <div className="p-4">
@@ -67,19 +67,19 @@ export default function NoteApp({ chapterId }: NoteAppProps) {
             value={currentNote}
             onChange={(e) => setCurrentNote(e.target.value)}
             onFocus={() => setIsFocused(true)}
-            className="w-full min-h-[120px] resize-none outline-none text-dark-800 placeholder:text-dark-400 text-sm leading-relaxed"
+            className="w-full min-h-[120px] resize-none outline-none text-dark-800 placeholder:text-dark-400 text-sm leading-relaxed bg-transparent"
           />
         </div>
         
         {isFocused && (
-          <div className="px-4 py-3 bg-dark-50 border-t border-dark-100 flex justify-between items-center rounded-b-2xl animate-in fade-in slide-in-from-top-2">
+          <div className="px-4 py-3 bg-dark-50 dark:bg-dark-50/50 border-t border-dark-100 dark:border-dark-100/50 flex justify-between items-center rounded-b-2xl animate-in fade-in slide-in-from-top-2">
             <span className="text-xs text-dark-400 font-medium">
               Formatting coming soon
             </span>
             <div className="flex gap-2">
                <button 
                  onClick={() => setIsFocused(false)}
-                 className="px-4 py-1.5 text-xs font-medium text-dark-500 hover:bg-dark-200 rounded-lg transition-colors"
+                 className="px-4 py-1.5 text-xs font-medium text-dark-500 hover:bg-dark-200 dark:hover:bg-dark-200/50 rounded-lg transition-colors"
                >
                  Cancel
                </button>
@@ -103,8 +103,8 @@ export default function NoteApp({ chapterId }: NoteAppProps) {
         </h3>
 
         {filteredNotes.length === 0 ? (
-          <div className="text-center py-12 bg-dark-50 rounded-2xl border border-dashed border-dark-200">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm text-dark-300">
+          <div className="text-center py-12 bg-dark-50 dark:bg-dark-100 rounded-2xl border border-dashed border-dark-200 dark:border-dark-100/50">
+            <div className="w-12 h-12 bg-white dark:bg-dark-200 rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm text-dark-300 dark:text-dark-500">
                <Plus size={24} />
             </div>
             <p className="text-dark-500 font-medium text-sm">No notes yet</p>
@@ -112,7 +112,7 @@ export default function NoteApp({ chapterId }: NoteAppProps) {
           </div>
         ) : (
           filteredNotes.map((note) => (
-            <div key={note.id} className="bg-white p-5 rounded-2xl border border-dark-100 hover:border-dark-200 transition-all group shadow-sm">
+            <div key={note.id} className="bg-white dark:bg-dark-100 p-5 rounded-2xl border border-dark-100 dark:border-dark-100/50 hover:border-dark-200 dark:hover:border-dark-100 transition-all group shadow-sm">
               <div className="flex justify-between items-start mb-3">
                 <div className="flex items-center gap-2 text-xs text-dark-400">
                   <Clock size={12} />
